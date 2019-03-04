@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
-import MessageList from './features/messages'
+import React, { Component } from "react";
+import "./App.css";
+import MessageList from "./features/messages";
 
 class App extends Component {
   render() {
