@@ -1,20 +1,21 @@
-import { ActionsUnion, createAction } from "@martin_hotell/rex-tils";
+import { ActionsUnion, createAction } from '@martin_hotell/rex-tils';
 
-export const START1 = "START1";
-export const STOP1 = "STOP1";
-export const START2 = "START2";
-export const STOP2 = "STOP2";
-export const STOPALL = "STOPALL";
-export const SHOW = "SHOW";
-export const HIDE = "HIDE";
-export const FOO = "FOO";
-export const SEQUENCE = "SEQUENCE";
-export const ASYNC = "ASYNC";
-export const ERROR = "ERROR";
-export const STEP1 = "STEP1";
-export const STEP2 = "STEP2";
-export const SUCCESS = "SUCCESS";
-export const FAILED = "FAILED";
+export const START1 = 'START1';
+export const STOP1 = 'STOP1';
+export const START2 = 'START2';
+export const STOP2 = 'STOP2';
+export const STOPALL = 'STOPALL';
+export const SHOW = 'SHOW';
+export const HIDE = 'HIDE';
+export const FOO = 'FOO';
+export const SEQUENCE = 'SEQUENCE';
+export const ASYNC = 'ASYNC';
+export const ERROR = 'ERROR';
+export const STEP1 = 'STEP1';
+export const STEP2 = 'STEP2';
+export const SUCCESS = 'SUCCESS';
+export const FAILED = 'FAILED';
+export const INFO = 'INFO';
 
 const actions = {
   start1: () => createAction(START1),
@@ -26,14 +27,15 @@ const actions = {
   hide: () => createAction(HIDE),
   foo: () => createAction(FOO),
   sequence: () => createAction(SEQUENCE),
-  error1: () => createAction(ERROR, "ERROR1"),
-  error2: () => createAction(ERROR, "ERROR2"),
-  error3: () => createAction(ERROR, "timeout"),
+  error1: () => createAction(ERROR, 'ERROR1'),
+  error2: () => createAction(ERROR, 'ERROR2'),
+  error3: () => createAction(ERROR, 'timeout'),
   step1: () => createAction(STEP1),
   step2: () => createAction(STEP2),
   async: () => createAction(ASYNC),
   success: () => createAction(SUCCESS),
-  failed: () => createAction(FAILED)
+  failed: () => createAction(FAILED),
+  info: (message: string) => createAction(INFO, message),
 };
 export type MessagesAction = ActionsUnion<typeof actions>;
 
@@ -42,28 +44,36 @@ export { actions as messagesActions };
 
 export type MessagesState = {
   list: Array<string>;
+  instructions: string;
   visible: boolean;
 };
 
 const initialState: MessagesState = {
-  list: ["abc", "123", "test"],
-  visible: false
+  list: [],
+  instructions: '',
+  visible: false,
 };
 
-export const messagesReducer = (
-  state: MessagesState = initialState,
-  action: MessagesAction
-): MessagesState => {
+export const messagesReducer = (state: MessagesState = initialState, action: MessagesAction): MessagesState => {
+  state = {
+    ...state,
+    list: [action.type, ...state.list],
+  };
   switch (action.type) {
     case SHOW:
       return {
         ...state,
-        visible: true
+        visible: true,
       };
     case HIDE:
       return {
         ...state,
-        visible: false
+        visible: false,
+      };
+    case INFO:
+      return {
+        ...state,
+        instructions: action.payload,
       };
     default:
       return state;
