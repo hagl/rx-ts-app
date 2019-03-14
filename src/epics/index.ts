@@ -15,7 +15,19 @@ import {
 import { RootState } from '../typedefs/types';
 import { ofType } from '@martin_hotell/rex-tils';
 import { concat, interval, of, NEVER, race, zip, Observable, throwError } from 'rxjs';
-import { flatMap, map, withLatestFrom, takeUntil, delay, catchError, tap, timeout, take } from 'rxjs/operators';
+import {
+  flatMap,
+  map,
+  withLatestFrom,
+  takeUntil,
+  delay,
+  catchError,
+  tap,
+  timeout,
+  take,
+  ignoreElements,
+} from 'rxjs/operators';
+import { ensureDuration, blockUntil, blockUntil2 } from '../common/rx/utils';
 
 const pingEpic: Epic = (action$: ActionsObservable<MessagesAction>, state$: StateObservable<RootState>) => {
   return action$.pipe(
@@ -68,7 +80,7 @@ const showMessageAtLeast3SecEpic: Epic = (
     flatMap(() =>
       concat(
         of(messagesActions.show(), messagesActions.info('click STOP2 to hide message')),
-        NEVER.pipe(takeUntil(zip(action$.pipe(ofType(STOP2, STOPALL)), interval(3000)))),
+        blockUntil2(action$, STOP2, STOPALL).pipe(ensureDuration(3000)),
         of(messagesActions.hide(), messagesActions.info(''))
       )
     )
