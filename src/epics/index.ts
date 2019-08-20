@@ -11,23 +11,13 @@ import {
 } from '../features/answers/redux';
 import { RootState } from '../reducers'
 import { ofType } from '@martin_hotell/rex-tils';
-import { concat, interval, of, NEVER, race, range } from 'rxjs';
+import { concat, of, range } from 'rxjs';
 import {
   flatMap,
   map,
-  takeUntil,
   tap,
   ignoreElements,
-  delayWhen,
-  startWith,
 } from 'rxjs/operators';
-
-const showMessage3Sec: Epic = (action$: ActionsObservable<AnswerAction>, state$: StateObservable<RootState>) => {
-  return action$.pipe(
-    ignoreElements()
-  );
-};
-
 
 const timerEpic: Epic<AnswerAction, AnswerAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -101,20 +91,5 @@ const objectSpreadEpic: Epic<AnswerAction, AnswerAction, RootState> = (action$, 
     })
   )
 
-const sequenceEpic: Epic<AnswerAction, AnswerAction, RootState> = (action$, state$) =>
-  action$.pipe(
-    ofType(SEQUENCE),
-    // flatMap(() => range(1, 5).pipe(
-    flatMap(() => of(
-      answerActions.startArraySpread(),
-      answerActions.startArrayConcat(),
-      answerActions.startArrayPush(),
-      answerActions.startObjectSpread()
-    ).pipe(
-      flatMap(a => of(a).pipe(delayWhen(() => action$.pipe(ofType(TIMER))))),
-      startWith(answerActions.timer("GO"))
-    )
-      // ))
-    ))
 
-export const rootEpic = combineEpics(showMessage3Sec, timerEpic, arraySpreadEpic, arrayConcatEpic, arrayPushEpic, objectSpreadEpic, sequenceEpic);
+export const rootEpic = combineEpics(timerEpic, arraySpreadEpic, arrayConcatEpic, arrayPushEpic, objectSpreadEpic);
