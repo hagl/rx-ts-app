@@ -1,23 +1,6 @@
 import { ActionsUnion, createAction } from '@martin_hotell/rex-tils';
-import { object } from 'prop-types';
-import { create } from 'domain';
 
-export const START1 = 'START1';
-export const STOP1 = 'STOP1';
-export const START2 = 'START2';
-export const STOP2 = 'STOP2';
-export const STOPALL = 'STOPALL';
-export const SHOW = 'SHOW';
-export const HIDE = 'HIDE';
-export const FOO = 'FOO';
 export const SEQUENCE = 'SEQUENCE';
-export const ASYNC = 'ASYNC';
-export const ERROR = 'ERROR';
-export const STEP1 = 'STEP1';
-export const STEP2 = 'STEP2';
-export const SUCCESS = 'SUCCESS';
-export const FAILED = 'FAILED';
-export const INFO = 'INFO';
 
 export const START_ARRAY_SPREAD = 'START_ARRAY_SPREAD';
 export const START_ARRAY_CONCAT = 'START_ARRAY_CONCAT';
@@ -37,6 +20,7 @@ const actions = {
   startArrayConcat: () => createAction(START_ARRAY_CONCAT),
   startArrayPush: () => createAction(START_ARRAY_PUSH),
   startObjectSpread: () => createAction(START_OBJECT_SPREAD),
+
   testArraySpread: (answer: Answer) => createAction(TEST_ARRAY_SPREAD, { answer }),
   testArrayConcat: (answer: Answer) => createAction(TEST_ARRAY_CONCAT, { answer }),
   testArrayPush: (answer: Answer) => createAction(TEST_ARRAY_PUSH, { answer }),
@@ -50,20 +34,16 @@ const actions = {
 
   sequence: () => createAction(SEQUENCE),
 };
-export type MessagesAction = ActionsUnion<typeof actions>;
+export type AnswerAction = ActionsUnion<typeof actions>;
 
-export { actions as messagesActions };
-//export { Action as MessagesAction };
+export { actions as answerActions };
 
 export type Answer = {
   cid: string,
   data: string
 }
 
-export type MessagesState = {
-  list: Array<string>;
-  instructions: string;
-  visible: boolean;
+export type AnswersState = {
   spread: Array<Answer>;
   concat: Array<Answer>;
   push: Array<Answer>;
@@ -72,17 +52,14 @@ export type MessagesState = {
   }
 };
 
-const initialState: MessagesState = {
-  list: [],
-  instructions: '',
-  visible: false,
+const initialState: AnswersState = {
   spread: [],
   concat: [],
   push: [],
   object: {}
 };
 
-export const messagesReducer = (state: MessagesState = initialState, action: MessagesAction): MessagesState => {
+export const messagesReducer = (state: AnswersState = initialState, action: AnswerAction): AnswersState => {
   switch (action.type) {
     case TEST_ARRAY_SPREAD:
       return {

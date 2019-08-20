@@ -8,7 +8,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./reducers/root";
 import { rootEpic } from "./epics";
 import { Provider } from "react-redux";
-import MessageList from "./features/messages";
+import MessageList from "./features/answers";
 
 const epicMiddleware = createEpicMiddleware();
 const logger = (store: any) => (next: any) => (action: any) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import MessageList from './features/messages';
+import Controls from './features/answers';
 
 class App extends Component {
   render() {
@@ -11,7 +11,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
-        <MessageList />
+        <Controls />
       </div>
     );
   }

@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import messagesReducer from "../features/messages/actions";
+import answerReducer from "../features/answers/actions";
 
 const rootReducer = combineReducers({
-  messages: messagesReducer
+  answers: answerReducer
 });
 
 export default rootReducer;
