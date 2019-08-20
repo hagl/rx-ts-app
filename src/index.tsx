@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { createEpicMiddleware } from "redux-observable";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./reducers/root";
 import { rootEpic } from "./epics";
 import { Provider } from "react-redux";
@@ -19,7 +19,10 @@ const logger = (store: any) => (next: any) => (action: any) => {
   console.groupEnd();
   return next(action);
 };
-const store = createStore(rootReducer, applyMiddleware(epicMiddleware, logger));
+
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMiddleware/*, logger*/)));
 
 epicMiddleware.run(rootEpic);
 
