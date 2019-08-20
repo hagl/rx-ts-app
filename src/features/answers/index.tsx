@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootState } from '../../typedefs/types';
-import { bindActionCreators, Dispatch } from 'redux';
-import { answerActions } from './actions';
+import { RootState } from '../../reducers'
+import { answerActions } from './redux';
 
 type Actions = typeof answerActions;
 

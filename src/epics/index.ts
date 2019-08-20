@@ -8,8 +8,8 @@ import {
   START_ARRAY_CONCAT,
   START_OBJECT_SPREAD,
   START_ARRAY_PUSH,
-} from '../features/answers/actions';
-import { RootState } from '../typedefs/types';
+} from '../features/answers/redux';
+import { RootState } from '../reducers'
 import { ofType } from '@martin_hotell/rex-tils';
 import { concat, interval, of, NEVER, race, range } from 'rxjs';
 import {
