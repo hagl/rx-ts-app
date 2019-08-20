@@ -19,6 +19,8 @@ import {
   ignoreElements,
 } from 'rxjs/operators';
 
+
+
 const timerEpic: Epic<AnswerAction, AnswerAction, RootState> = (action$, state$) =>
   action$.pipe(
     ofType(TIMER),
@@ -91,5 +93,11 @@ const objectSpreadEpic: Epic<AnswerAction, AnswerAction, RootState> = (action$, 
     })
   )
 
+const testEpic: Epic<AnswerAction, AnswerAction, RootState> = (action$, state$) =>
+  action$.pipe(
+    ofType(SEQUENCE),
+    ignoreElements()
+  )
 
+// export const rootEpic = combineEpics(testEpic, testEpic, testEpic, timerEpic, arraySpreadEpic, arrayConcatEpic, arrayPushEpic, objectSpreadEpic);
 export const rootEpic = combineEpics(timerEpic, arraySpreadEpic, arrayConcatEpic, arrayPushEpic, objectSpreadEpic);
